@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class CustomTextField extends StatefulWidget {
-  CustomTextField({super.key, this.label = 'Email', this.preFixIcon, this.isObscure = true, this.suFixIcon});
+  const CustomTextField(
+      {super.key,
+      this.label = 'Email',
+      this.preFixIcon,
+      this.isSecret = false,
+      this.suFixIcon});
 
-  bool? isObscure;
   final String? label;
+  final bool isSecret;
   final IconData? preFixIcon;
   final IconData? suFixIcon;
 
@@ -14,39 +18,39 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool variateObscureText() {
-    if (widget.isObscure == true) {
-      widget.isObscure = false;
-      return widget.isObscure!;
-    } else {
-      widget.isObscure = true;
-      return widget.isObscure!;
-    }
-  }
+  bool isObscure = false;
 
+  @override
+  void initState() {
+    super.initState();
+
+    isObscure = widget.isSecret;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: TextFormField(
-        obscureText: widget.isObscure!,
+        obscureText: isObscure,
         decoration: InputDecoration(
-            suffixIcon: widget.isObscure == false ? IconButton(
-                onPressed: () {
-                  setState(() {
-                  variateObscureText();
-                  });
-                },
-                icon: const Icon(Icons.visibility))
-                : null,
-            prefixIcon: Icon(
-              widget.preFixIcon,
-            ),
-            labelText: widget.label,
-            isDense: true,
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(18))),
+          suffixIcon: widget.isSecret
+              ? IconButton(
+                  icon: Icon(isObscure == true
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isObscure = !isObscure;
+                    });
+                  },
+                )
+              : null,
+          prefixIcon: Icon(
+            widget.preFixIcon,
+          ),
+          labelText: widget.label,
+        ),
       ),
     );
   }
