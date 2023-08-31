@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:greengrocer/src/auth/components/custom_text_field.dart';
+import 'package:greengrocer/src/auth/sign_up_screen.dart';
 
 class SignScreen extends StatelessWidget {
   const SignScreen({super.key});
@@ -89,6 +90,7 @@ class SignScreen extends StatelessWidget {
                       isSecret: true,
                       preFixIcon: Icons.lock,
                       label: 'Senha',
+                      textInputAction: TextInputAction.done,
                     ),
 
                     //Botão de entrar
@@ -156,7 +158,13 @@ class SignScreen extends StatelessWidget {
                       height: 50,
                       child: OutlinedButton(
                           style: OutlinedButton.styleFrom(),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) {
+                                return SignUpScreen();
+                              }),
+                            );
+                          },
                           child: const Text(
                             'Criar conta',
                             style: TextStyle(fontSize: 18),
